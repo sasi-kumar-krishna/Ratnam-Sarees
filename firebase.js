@@ -7,16 +7,16 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from
 // Replace these with your actual Firebase Project keys!
 // ==========================================
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAn9wlBrjTCzqwyb5Z0milpbcxSrQhHQcs",
+  authDomain: "ratnam-7f934.firebaseapp.com",
+  projectId: "ratnam-7f934",
+  storageBucket: "ratnam-7f934.firebasestorage.app",
+  messagingSenderId: "131039681433",
+  appId: "1:131039681433:web:541e262e645e5f09dd5108"
 };
 
 // Toggle this to TRUE once you've pasted your keys above
-export const USE_FIREBASE = false;
+export const USE_FIREBASE = true;
 
 let app, db, auth;
 
