@@ -138,42 +138,52 @@ productForm?.addEventListener('submit', async (e) => {
         featured: fFeatured.checked
     };
 
-    if (editingId) {
-        // Edit existing
-        if (USE_FIREBASE) {
-            await fbDb.updateSaree(editingId, sareeData);
+    try {
+        if (editingId) {
+            // Edit existing
+            if (USE_FIREBASE) {
+                await fbDb.updateSaree(editingId, sareeData);
+            } else {
+                let sarees = mockDb.getSarees();
+                sareeData.id = editingId;
+                sarees = sarees.map(s => s.id === editingId ? sareeData : s);
+                localStorage.setItem('ratnam_sarees', JSON.stringify(sarees));
+            }
         } else {
-            let sarees = mockDb.getSarees();
-            sareeData.id = editingId;
-            sarees = sarees.map(s => s.id === editingId ? sareeData : s);
-            localStorage.setItem('ratnam_sarees', JSON.stringify(sarees));
+            // Add new
+            if (USE_FIREBASE) {
+                await fbDb.saveSaree(sareeData);
+            } else {
+                sareeData.id = Date.now().toString();
+                mockDb.saveSaree(sareeData);
+            }
         }
-    } else {
-        // Add new
-        if (USE_FIREBASE) {
-            await fbDb.saveSaree(sareeData);
-        } else {
-            sareeData.id = Date.now().toString();
-            mockDb.saveSaree(sareeData);
-        }
-    }
 
-    productFormSection.style.display = 'none';
-    productForm.reset();
-    editingId = null;
-    await renderTable();
-    alert('Product saved successfully!');
+        productFormSection.style.display = 'none';
+        productForm.reset();
+        editingId = null;
+        await renderTable();
+        alert('Product saved successfully!');
+    } catch (error) {
+        console.error("Error saving product: ", error);
+        alert('Failed to save product! Firebase Error: ' + error.message + '\n\nMake sure your Firestore Database is created and Security Rules are set correctly.');
+    }
 });
 
 // Handle Delete
 window.handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this saree?')) {
-        if (USE_FIREBASE) {
-            await fbDb.deleteSaree(id);
-        } else {
-            mockDb.deleteSaree(id);
+        try {
+            if (USE_FIREBASE) {
+                await fbDb.deleteSaree(id);
+            } else {
+                mockDb.deleteSaree(id);
+            }
+            await renderTable();
+        } catch (error) {
+            console.error("Error deleting product: ", error);
+            alert('Failed to delete product! Firebase Error: ' + error.message);
         }
-        await renderTable();
     }
 };
 
