@@ -139,9 +139,33 @@ const initCategoryPage = () => {
     });
 };
 
+// Initialize Carousels for Home Page Hero
+const initHeroCarousels = () => {
+    const startCarousel = (containerSelector, intervalMs) => {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        const images = container.querySelectorAll('.hero-img');
+        if (images.length <= 1) return;
+        
+        let currentIndex = 0;
+        setInterval(() => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }, intervalMs);
+    };
+
+    // Stagger the intervals so they don't fade at the exact same moment
+    startCarousel('.carousel-1', 4000);
+    setTimeout(() => {
+        startCarousel('.carousel-2', 4000);
+    }, 1500);
+};
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
     renderFeaturedProducts();
     initCategoryPage();
+    initHeroCarousels();
 });
