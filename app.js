@@ -21,18 +21,20 @@ const getWhatsAppLink = (saree) => {
 const createProductCard = (saree) => {
     return `
         <div class="product-card">
-            <div class="product-img-wrapper">
-                <span class="product-category-tag">${saree.category}</span>
-                <img src="${saree.image}" alt="${saree.name}" class="product-img" loading="lazy">
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${saree.name}</h3>
-                <div class="product-price">${formatPrice(saree.price)}</div>
-                <div class="product-actions">
-                    <a href="${getWhatsAppLink(saree)}" target="_blank" class="btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> Buy Now
-                    </a>
+            <a href="product.html?id=${saree.id}" style="display:block; text-decoration:none; color:inherit; flex-grow:1;">
+                <div class="product-img-wrapper" style="height: 360px;">
+                    <span class="product-category-tag">${saree.category}</span>
+                    <img src="${saree.image}" alt="${saree.name}" class="product-img" loading="lazy">
                 </div>
+                <div class="product-info" style="padding: 24px; display:flex; flex-direction:column; gap:8px;">
+                    <h3 class="product-title">${saree.name}</h3>
+                    <div class="product-price">${formatPrice(saree.price)}</div>
+                </div>
+            </a>
+            <div class="product-actions" style="padding: 0 24px 24px;">
+                <a href="${getWhatsAppLink(saree)}" target="_blank" class="btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Buy via WhatsApp
+                </a>
             </div>
         </div>
     `;
@@ -162,10 +164,61 @@ const initHeroCarousels = () => {
     }, 1500);
 };
 
+// Render Product Details Page
+const renderProductDetails = async () => {
+    const container = document.getElementById('product-details-container');
+    if (!container) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    if (!productId) {
+        container.innerHTML = '<div style="text-align:center; padding:100px;"><h2>Product not found.</h2><a href="categories.html" class="btn-primary">Back to Shop</a></div>';
+        return;
+    }
+
+    let sarees = [];
+    if (USE_FIREBASE) {
+        sarees = await fbDb.getSarees();
+    } else {
+        sarees = mockDb.getSarees();
+    }
+
+    const saree = sarees.find(s => s.id === productId);
+
+    if (!saree) {
+        container.innerHTML = '<div style="text-align:center; padding:100px;"><h2>Product not found.</h2><a href="categories.html" class="btn-primary">Back to Shop</a></div>';
+        return;
+    }
+
+    // Populate the details page
+    document.title = `${saree.name} | Ratnam Sarees`;
+    document.getElementById('pd-image').src = saree.image;
+    document.getElementById('pd-title').textContent = saree.name;
+    document.getElementById('pd-price').textContent = formatPrice(saree.price);
+    document.getElementById('pd-desc').textContent = saree.description;
+    document.getElementById('pd-category').textContent = saree.category;
+    document.getElementById('pd-whatsapp').href = getWhatsAppLink(saree);
+
+    // Render "You May Also Like" (Same category)
+    const suggestedContainer = document.getElementById('suggested-grid');
+    if (suggestedContainer) {
+        const related = sarees.filter(s => s.category === saree.category && s.id !== saree.id).slice(0, 4);
+        if (related.length === 0) {
+            // Fallback to random if no related found
+            const fallback = sarees.filter(s => s.id !== saree.id).slice(0, 4);
+            suggestedContainer.innerHTML = fallback.map(createProductCard).join('');
+        } else {
+            suggestedContainer.innerHTML = related.map(createProductCard).join('');
+        }
+    }
+};
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
     renderFeaturedProducts();
     initCategoryPage();
     initHeroCarousels();
+    renderProductDetails();
 });

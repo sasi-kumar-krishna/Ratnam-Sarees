@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saree Details | Ratnam Sarees</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-page-wrapper {
+            padding: 120px 0 60px;
+            background-color: var(--bg-color);
+        }
+        .back-nav {
+            margin-bottom: 32px;
+        }
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .back-nav a:hover {
+            color: var(--primary-color);
+        }
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .product-gallery {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-color);
+            position: relative;
+        }
+        .main-image {
+            width: 100%;
+            height: auto;
+            max-height: 700px;
+            object-fit: contain;
+            display: block;
+        }
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .pd-category {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .pd-title {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--text-main);
+        }
+        .pd-price {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+        .pd-desc-block {
+            margin-bottom: 40px;
+        }
+        .pd-desc-block h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+        .pd-desc-text {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        .action-block {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        .shipping-info {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .shipping-info span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .related-section {
+            padding: 80px 0;
+            background: var(--bg-color);
+        }
+
+        @media (max-width: 900px) {
+            .product-layout {
+                grid-template-columns: 1fr;
+                padding: 24px;
+                gap: 40px;
+            }
+            .pd-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Ratnam<span>Sarees</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="categories.html" class="active">Categories</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="admin.html">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Product Section -->
+    <section class="product-page-wrapper">
+        <div class="container" id="product-details-container">
+            <div class="back-nav">
+                <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back to Shopping</a>
+            </div>
+            
+            <div class="product-layout">
+                <div class="product-gallery">
+                    <img id="pd-image" src="" alt="Saree Image Loading..." class="main-image">
+                </div>
+                
+                <div class="product-details">
+                    <div>
+                        <span id="pd-category" class="pd-category">-</span>
+                        <h1 id="pd-title" class="pd-title">Loading...</h1>
+                        <div id="pd-price" class="pd-price">--</div>
+                    </div>
+                    
+                    <div class="pd-desc-block">
+                        <h4>Product Description</h4>
+                        <p id="pd-desc" class="pd-desc-text">Please wait while we load the details for this item...</p>
+                    </div>
+
+                    <div class="action-block">
+                        <a id="pd-whatsapp" href="#" target="_blank" class="btn-primary btn-large" style="background-color: #25D366; color: white; display: flex; align-items: center; justify-content: center; gap: 12px; border-radius: 8px;">
+                            <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i> Buy on WhatsApp
+                        </a>
+                        <p style="text-align:center; font-size: 0.85rem; color: var(--text-light);">Clicking this will open a pre-filled chat with our team.</p>
+                    </div>
+
+                    <div class="shipping-info">
+                        <span><i class="fas fa-truck"></i> Free Shipping PAN India</span>
+                        <span><i class="fas fa-shield-alt"></i> 100% Authentic Quality</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suggested Products -->
+    <section class="related-section">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="product-grid" id="suggested-grid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Ratnam<span>Sarees</span></div>
+                    <p>Bringing you the finest collection of traditional and contemporary sarees crafted with love and care.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="categories.html">Categories</a>
+                        <a href="contact.html">Contact Us</a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Collections</h4>
+                    <div class="footer-links">
+                        <a href="categories.html?category=Silk">Silk Sarees</a>
+                        <a href="categories.html?category=Designer">Designer Series</a>
+                        <a href="categories.html?category=Wedding">Wedding Specials</a>
+                        <a href="categories.html?category=Cotton">Cotton Classics</a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <div class="footer-links">
+                        <a href="mailto:sasitech33@gmail.com"><i class="fas fa-envelope"></i> sasitech33@gmail.com</a>
+                        <a href="tel:+919032054112"><i class="fas fa-phone"></i> +91 90320 54112</a>
+                        <a href="https://wa.me/919032054112"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ratnam Sarees. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
