@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratnam Sarees | Elegance Woven With Tradition</title>
+    <meta name="description" content="Discover premium, authentic sarees for all occasions. Silk, Cotton, Designer, and Wedding collections available.">
+    <link rel="stylesheet" href="./style.css">
+    <!-- FontAwesome for icons like WhatsApp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                Ratnam<span>Sarees</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="categories.html">Categories</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <!-- In a full app, we would add a mobile menu hamburger here -->
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Where Tradition Meets <span>Modern Elegance</span></h1>
+                <p>Discover our exclusive collection of handwoven and designer sarees crafted for your most precious moments.</p>
+                <div class="hero-buttons">
+                    <a href="categories.html" class="btn-primary">Shop Collection</a>
+                    <a href="#featured" class="btn-secondary">Explore Featured</a>
+                </div>
+            </div>
+            <div class="hero-images">
+                <img src="https://images.unsplash.com/photo-1610189013444-2bd8e227add1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Beautiful Red Silk Saree" class="hero-img hero-img-1">
+                <img src="https://images.unsplash.com/photo-1583391733959-b1cadfcfa280?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Elegant Designer Saree" class="hero-img hero-img-2">
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Preview -->
+    <section class="categories-preview">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="category-grid" id="category-preview-grid">
+                <!-- Categories will be injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Sarees -->
+    <section id="featured" class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Featured Collections</h2>
+            <div class="product-grid" id="featured-grid">
+                <!-- Products will be injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">Ratnam<span>Sarees</span></div>
+                    <p>Bringing you the finest collection of traditional and contemporary sarees crafted with love and care.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="categories.html">Categories</a>
+                        <a href="contact.html">Contact Us</a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Collections</h4>
+                    <div class="footer-links">
+                        <a href="categories.html?category=Silk">Silk Sarees</a>
+                        <a href="categories.html?category=Designer">Designer Series</a>
+                        <a href="categories.html?category=Wedding">Wedding Specials</a>
+                        <a href="categories.html?category=Cotton">Cotton Classics</a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <div class="footer-links">
+                        <a href="mailto:info@ratnamsarees.com"><i class="fas fa-envelope"></i> info@ratnamsarees.com</a>
+                        <a href="tel:+1234567890"><i class="fas fa-phone"></i> +1 234 567 890</a>
+                        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ratnam Sarees. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Logic using Module pattern -->
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

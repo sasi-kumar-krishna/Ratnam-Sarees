@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saree Collections | Ratnam Sarees</title>
+    <meta name="description" content="Browse our complete collection of beautiful sarees.">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-header {
+            padding: 120px 0 60px;
+            background-color: var(--surface-color);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .main-collection {
+            padding: 60px 0;
+            min-height: 50vh;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Ratnam<span>Sarees</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="categories.html" class="active">Categories</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="admin.html">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Our Collections</h1>
+            <p>Find the perfect saree for your unique style</p>
+        </div>
+    </div>
+
+    <!-- Main Collection -->
+    <section class="main-collection">
+        <div class="container">
+            <div class="filters" id="category-filters">
+                <button class="filter-btn active" data-filter="All">All Sarees</button>
+                <button class="filter-btn" data-filter="Silk">Silk</button>
+                <button class="filter-btn" data-filter="Cotton">Cotton</button>
+                <button class="filter-btn" data-filter="Designer">Designer</button>
+                <button class="filter-btn" data-filter="Wedding">Wedding</button>
+                <button class="filter-btn" data-filter="Casual">Casual</button>
+            </div>
+            
+            <div class="product-grid" id="full-product-grid">
+                <!-- Products dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ratnam Sarees. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

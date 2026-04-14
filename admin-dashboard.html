@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Ratnam Sarees</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 260px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar .logo {
+            color: white;
+            margin-bottom: 48px;
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .sidebar-menu a {
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .logout-btn {
+            margin-top: auto;
+            color: #ffcccc !important;
+        }
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.2) !important;
+        }
+        .main-content {
+            flex: 1;
+            background: var(--bg-color);
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .dashboard-header h1 {
+            margin: 0;
+            color: var(--text-main);
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 32px;
+        }
+        
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .product-img-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .btn-edit { color: #1976d2; background: rgba(25, 118, 210, 0.1); }
+        .btn-edit:hover { background: rgba(25, 118, 210, 0.2); }
+        .btn-delete { color: #d32f2f; background: rgba(211, 47, 47, 0.1); }
+        .btn-delete:hover { background: rgba(211, 47, 47, 0.2); }
+        
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+        }
+        .full-width { grid-column: 1 / -1; }
+        .flex-end {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Ratnam<span>Admin</span></div>
+            <div class="sidebar-menu">
+                <a href="#" class="active"><i class="fas fa-box"></i> Products</a>
+                <!-- Future features -->
+                <a href="#"><i class="fas fa-list"></i> Categories</a>
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                
+                <a href="#" class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h1>Manage Inventory</h1>
+                <button class="btn-primary" id="openAddModalBtn"><i class="fas fa-plus"></i> Add New Saree</button>
+            </div>
+
+            <!-- Add/Edit Form section (Hidden by default) -->
+            <div class="admin-card" id="productFormSection" style="display: none;">
+                <h3 style="margin-bottom: 24px;" id="formTitle">Add New Saree</h3>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Saree Name</label>
+                            <input type="text" id="pName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" id="pPrice" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="pCategory" class="form-control" required>
+                                <option value="Silk">Silk</option>
+                                <option value="Cotton">Cotton</option>
+                                <option value="Designer">Designer</option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Casual">Casual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Image URL (Mock Upload)</label>
+                            <input type="url" id="pImage" class="form-control" placeholder="https://..." required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Description</label>
+                            <textarea id="pDesc" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="pFeatured"> Feature on Homepage
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex-end">
+                        <button type="button" class="btn-secondary" id="cancelFormBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Product</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Products Table -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table id="productsTable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Logic -->
+    <script type="module" src="./admin.js"></script>
+</body>
+</html>
