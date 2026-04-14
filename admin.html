@@ -84,24 +84,31 @@
             <button type="submit" class="btn-primary" style="width: 100%; margin-top: 16px;">Login to Dashboard</button>
         </form>
 
-        <p style="margin-top: 24px; font-size: 0.85rem; color: var(--text-light);">
-            <i class="fas fa-info-circle"></i> Mock Admin:<br>Email: admin@test.com<br>Password: admin123
-        </p>
-    </div>
-
     <!-- Auth Script -->
-    <script>
-        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+    <script type="module">
+        import { USE_FIREBASE, fbAuth } from './firebase.js';
+
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('error-message');
             
-            // Mock Auth for now until Firebase config is provided
-            if (email === 'admin@test.com' && password === 'admin123') {
-                sessionStorage.setItem('isAdminLoggedIn', 'true');
-                window.location.href = 'admin-dashboard.html';
-            } else {
+            try {
+                if (USE_FIREBASE) {
+                    await fbAuth.login(email, password);
+                    sessionStorage.setItem('isAdminLoggedIn', 'true');
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    // Fallback local mock mode if firebase is off
+                    if (email === 'admin@test.com' && password === 'admin123') {
+                        sessionStorage.setItem('isAdminLoggedIn', 'true');
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        throw new Error('Invalid credentials');
+                    }
+                }
+            } catch (err) {
                 errorEl.style.display = 'block';
                 errorEl.textContent = 'Invalid credentials. Please try again.';
             }
