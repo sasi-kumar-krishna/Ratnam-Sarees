@@ -12,7 +12,7 @@ const formatPrice = (price) => {
 
 // Generate WhatsApp Link
 const getWhatsAppLink = (saree) => {
-    const phoneNumber = "919876543210"; 
+    const phoneNumber = "919032054112"; 
     const message = `Hi Ratnam Sarees, I am interested in purchasing the "${saree.name}" (ID: ${saree.id}) priced at ₹${saree.price}. Please provide more details.`;
     return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 };
