@@ -198,3 +198,76 @@ logoutBtn?.addEventListener('click', (e) => {
 if (window.location.pathname.includes('admin-dashboard.html')) {
     document.addEventListener('DOMContentLoaded', renderTable);
 }
+
+// -----------------------------------------------------
+// TABS & SETTINGS LOGIC
+// -----------------------------------------------------
+const tabProducts = document.getElementById('tabProducts');
+const tabSettings = document.getElementById('tabSettings');
+const viewProducts = document.getElementById('viewProducts');
+const viewSettings = document.getElementById('viewSettings');
+
+const settingsForm = document.getElementById('settingsForm');
+const sCarousel1 = document.getElementById('sCarousel1');
+const sCarousel2 = document.getElementById('sCarousel2');
+
+window.switchTab = (tabName) => {
+    if (!tabProducts) return;
+    if (tabName === 'products') {
+        tabProducts.classList.add('active');
+        tabSettings.classList.remove('active');
+        viewProducts.style.display = 'block';
+        viewSettings.style.display = 'none';
+        renderTable();
+    } else if (tabName === 'settings') {
+        tabSettings.classList.add('active');
+        tabProducts.classList.remove('active');
+        viewSettings.style.display = 'block';
+        viewProducts.style.display = 'none';
+        loadSettings();
+    }
+};
+
+tabProducts?.addEventListener('click', (e) => { e.preventDefault(); switchTab('products'); });
+tabSettings?.addEventListener('click', (e) => { e.preventDefault(); switchTab('settings'); });
+
+const loadSettings = async () => {
+    try {
+        let settings = null;
+        if (USE_FIREBASE) {
+            settings = await fbDb.getSettings();
+        } 
+        if (!settings) {
+            settings = mockDb.getSettings();
+        }
+        sCarousel1.value = settings.carousel1.join(',\n');
+        sCarousel2.value = settings.carousel2.join(',\n');
+    } catch (err) {
+        console.error(err);
+        alert('Failed to load settings. Error: ' + err.message);
+    }
+};
+
+settingsForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const c1Text = sCarousel1.value;
+    const c2Text = sCarousel2.value;
+    
+    // Parse comma separated values
+    const settings = {
+        carousel1: c1Text.split(',').map(s => s.trim()).filter(s => s),
+        carousel2: c2Text.split(',').map(s => s.trim()).filter(s => s)
+    };
+    
+    try {
+        if (USE_FIREBASE) {
+            await fbDb.saveSettings(settings);
+        } else {
+            mockDb.saveSettings(settings);
+        }
+        alert('Settings saved successfully!');
+    } catch (err) {
+        console.error(err);
+        alert('Failed to save settings. Error: ' + err.message);
+    }
+});

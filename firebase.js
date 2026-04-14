@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // ==========================================
@@ -51,6 +51,18 @@ export const fbDb = {
     deleteSaree: async (id) => {
         if (!USE_FIREBASE) return;
         await deleteDoc(doc(db, "sarees", id));
+    },
+    getSettings: async () => {
+        if (!USE_FIREBASE) return null;
+        const docSnap = await getDoc(doc(db, "settings", "global"));
+        if (docSnap.exists()) {
+            return docSnap.data();
+        }
+        return null; // Return null if it doesn't exist yet
+    },
+    saveSettings: async (settings) => {
+        if (!USE_FIREBASE) return;
+        await setDoc(doc(db, "settings", "global"), settings);
     }
 };
 

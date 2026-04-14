@@ -15,6 +15,19 @@ const fetchSareesSafely = async () => {
     return mockDb.getSarees();
 };
 
+// Safe Settings Fetcher
+const fetchSettingsSafely = async () => {
+    if (USE_FIREBASE) {
+        try {
+            const data = await fbDb.getSettings();
+            if (data) return data;
+        } catch (err) {
+            console.error("Firebase settings fetch failed: ", err);
+        }
+    }
+    return mockDb.getSettings();
+};
+
 // Format currency
 const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {
@@ -146,7 +159,21 @@ const initCategoryPage = () => {
 };
 
 // Initialize Carousels for Home Page Hero
-const initHeroCarousels = () => {
+const initHeroCarousels = async () => {
+    const settings = await fetchSettingsSafely();
+    if (!settings) return;
+
+    const c1 = document.querySelector('.carousel-1');
+    const c2 = document.querySelector('.carousel-2');
+
+    // Inject images
+    if (c1 && settings.carousel1) {
+        c1.innerHTML = settings.carousel1.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
+    }
+    if (c2 && settings.carousel2) {
+        c2.innerHTML = settings.carousel2.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
+    }
+
     const startCarousel = (containerSelector, intervalMs) => {
         const container = document.querySelector(containerSelector);
         if (!container) return;
