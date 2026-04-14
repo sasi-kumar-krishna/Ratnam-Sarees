@@ -100,13 +100,7 @@
                     sessionStorage.setItem('isAdminLoggedIn', 'true');
                     window.location.href = 'admin-dashboard.html';
                 } else {
-                    // Fallback local mock mode if firebase is off
-                    if (email === 'admin@test.com' && password === 'admin123') {
-                        sessionStorage.setItem('isAdminLoggedIn', 'true');
-                        window.location.href = 'admin-dashboard.html';
-                    } else {
-                        throw new Error('Invalid credentials');
-                    }
+                    throw new Error('Database connection disabled.');
                 }
             } catch (err) {
                 errorEl.style.display = 'block';
