@@ -23,6 +23,7 @@
                 <a href="contact.html">Contact Us</a>
                 <a href="admin.html">Admin</a>
             </div>
+            <div id="google_translate_element" style="margin-left:auto;"></div>
             <!-- In a full app, we would add a mobile menu hamburger here -->
         </div>
     </nav>
@@ -114,6 +115,18 @@
             </div>
         </div>
     </footer>
+
+    <!-- Language Translation Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', 
+                includedLanguages: 'en,te,hi', // English, Telugu, Hindi
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Main Logic using Module pattern -->
     <script type="module" src="./app.js"></script>
