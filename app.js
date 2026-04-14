@@ -1,6 +1,20 @@
 import { categories, db as mockDb } from './mockData.js';
 import { USE_FIREBASE, fbDb } from './firebase.js';
 
+// Safe Fetcher: Returns Firebase data if working & populated, else falls back to Mock DB seamlessly
+const fetchSareesSafely = async () => {
+    if (USE_FIREBASE) {
+        try {
+            const data = await fbDb.getSarees();
+            if (data && data.length > 0) return data;
+            console.warn("Firebase returned 0 items. Falling back to mock data.");
+        } catch (err) {
+            console.error("Firebase fetch failed, falling back to mock: ", err);
+        }
+    }
+    return mockDb.getSarees();
+};
+
 // Format currency
 const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {
@@ -60,12 +74,7 @@ const renderFeaturedProducts = async () => {
     const container = document.getElementById('featured-grid');
     if (!container) return;
 
-    let sarees = [];
-    if (USE_FIREBASE) {
-        sarees = await fbDb.getSarees();
-    } else {
-        sarees = mockDb.getSarees();
-    }
+    const sarees = await fetchSareesSafely();
 
     const featured = sarees.filter(s => s.featured).slice(0, 4);
 
@@ -82,12 +91,7 @@ const renderFullGrid = async (filterCategory = 'All') => {
     const container = document.getElementById('full-product-grid');
     if (!container) return;
 
-    let sarees = [];
-    if (USE_FIREBASE) {
-        sarees = await fbDb.getSarees();
-    } else {
-        sarees = mockDb.getSarees();
-    }
+    const sarees = await fetchSareesSafely();
     const filtered = filterCategory === 'All' 
         ? sarees 
         : sarees.filter(s => s.category.toLowerCase() === filterCategory.toLowerCase());
@@ -177,12 +181,7 @@ const renderProductDetails = async () => {
         return;
     }
 
-    let sarees = [];
-    if (USE_FIREBASE) {
-        sarees = await fbDb.getSarees();
-    } else {
-        sarees = mockDb.getSarees();
-    }
+    const sarees = await fetchSareesSafely();
 
     const saree = sarees.find(s => s.id === productId);
 
@@ -214,11 +213,17 @@ const renderProductDetails = async () => {
     }
 };
 
-// Initialize App
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize App Robustly
+const initApp = () => {
     renderCategories();
     renderFeaturedProducts();
     initCategoryPage();
     initHeroCarousels();
     renderProductDetails();
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
