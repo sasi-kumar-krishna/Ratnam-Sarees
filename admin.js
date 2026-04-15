@@ -211,6 +211,12 @@ const settingsForm = document.getElementById('settingsForm');
 const sCarousel1 = document.getElementById('sCarousel1');
 const sCarousel2 = document.getElementById('sCarousel2');
 
+const sCatSilk = document.getElementById('sCatSilk');
+const sCatCotton = document.getElementById('sCatCotton');
+const sCatDesigner = document.getElementById('sCatDesigner');
+const sCatWedding = document.getElementById('sCatWedding');
+const sCatCasual = document.getElementById('sCatCasual');
+
 window.switchTab = (tabName) => {
     if (!tabProducts) return;
     if (tabName === 'products') {
@@ -240,8 +246,16 @@ const loadSettings = async () => {
         if (!settings) {
             settings = mockDb.getSettings();
         }
-        sCarousel1.value = settings.carousel1.join(',\n');
-        sCarousel2.value = settings.carousel2.join(',\n');
+        sCarousel1.value = settings.carousel1 ? settings.carousel1.join(',\n') : '';
+        sCarousel2.value = settings.carousel2 ? settings.carousel2.join(',\n') : '';
+        
+        if (settings.categoryImages) {
+            sCatSilk.value = settings.categoryImages.Silk || '';
+            sCatCotton.value = settings.categoryImages.Cotton || '';
+            sCatDesigner.value = settings.categoryImages.Designer || '';
+            sCatWedding.value = settings.categoryImages.Wedding || '';
+            sCatCasual.value = settings.categoryImages.Casual || '';
+        }
     } catch (err) {
         console.error(err);
         alert('Failed to load settings. Error: ' + err.message);
@@ -254,16 +268,23 @@ settingsForm?.addEventListener('submit', async (e) => {
     const c2Text = sCarousel2.value;
     
     // Parse comma separated values
-    const settings = {
+    const settingsObj = {
         carousel1: c1Text.split(',').map(s => s.trim()).filter(s => s),
-        carousel2: c2Text.split(',').map(s => s.trim()).filter(s => s)
+        carousel2: c2Text.split(',').map(s => s.trim()).filter(s => s),
+        categoryImages: {
+            Silk: sCatSilk.value.trim(),
+            Cotton: sCatCotton.value.trim(),
+            Designer: sCatDesigner.value.trim(),
+            Wedding: sCatWedding.value.trim(),
+            Casual: sCatCasual.value.trim()
+        }
     };
     
     try {
         if (USE_FIREBASE) {
-            await fbDb.saveSettings(settings);
+            await fbDb.saveSettings(settingsObj);
         } else {
-            mockDb.saveSettings(settings);
+            mockDb.saveSettings(settingsObj);
         }
         alert('Settings saved successfully!');
     } catch (err) {

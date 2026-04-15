@@ -68,11 +68,22 @@ const createProductCard = (saree) => {
 };
 
 // Render Category Preview (Home Page)
-const renderCategories = () => {
+const renderCategories = async () => {
     const container = document.getElementById('category-preview-grid');
     if (!container) return;
 
-    container.innerHTML = categories.map(cat => `
+    const settings = await fetchSettingsSafely();
+    let displayCategories = categories;
+
+    if (settings && settings.categoryImages) {
+        displayCategories = categories.map(cat => ({
+            ...cat,
+            // Prioritize the dynamic setting URL. If absent/empty, fallback to mockData hardcoded image
+            image: settings.categoryImages[cat.name] ? settings.categoryImages[cat.name] : cat.image
+        }));
+    }
+
+    container.innerHTML = displayCategories.map(cat => `
         <div class="category-card" onclick="window.location.href='categories.html?category=${cat.name}'">
             <img src="${cat.image}" alt="${cat.name} Sarees" loading="lazy">
             <div class="category-overlay">

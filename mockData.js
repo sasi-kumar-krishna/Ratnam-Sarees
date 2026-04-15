@@ -98,7 +98,14 @@ export const db = {
                 "https://images.unsplash.com/photo-1583391733959-b1cadfcfa280?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 "https://images.unsplash.com/photo-1603525281489-3d07e60e0a58?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 "https://images.unsplash.com/photo-1589156686161-073ba50c333a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-            ]
+            ],
+            categoryImages: {
+                Silk: "https://images.unsplash.com/photo-1610116664983-050ee631f4af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                Designer: "https://images.unsplash.com/photo-1583391733959-b1cadfcfa280?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                Wedding: "https://images.unsplash.com/photo-1610189013444-2bd8e227add1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                Cotton: "https://images.unsplash.com/photo-1596455607563-ad6193f76b11?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                Casual: "https://images.unsplash.com/photo-1603525281489-3d07e60e0a58?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            }
         };
     },
     saveSettings: (settings) => {
