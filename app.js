@@ -177,12 +177,20 @@ const initHeroCarousels = async () => {
     const c1 = document.querySelector('.carousel-1');
     const c2 = document.querySelector('.carousel-2');
 
+    // Helper to extract URLs and handle strings that might have comma/newline separated values
+    const parseCarouselUrls = (urls) => {
+        if (!Array.isArray(urls)) return [];
+        return urls.flatMap(u => u.split(/[\n,]+/).map(s => s.trim()).filter(Boolean));
+    };
+
     // Inject images
     if (c1 && settings.carousel1) {
-        c1.innerHTML = settings.carousel1.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
+        const urls1 = parseCarouselUrls(settings.carousel1);
+        c1.innerHTML = urls1.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
     }
     if (c2 && settings.carousel2) {
-        c2.innerHTML = settings.carousel2.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
+        const urls2 = parseCarouselUrls(settings.carousel2);
+        c2.innerHTML = urls2.map((url, i) => `<img src="${url}" class="hero-img ${i === 0 ? 'active' : ''}">`).join('');
     }
 
     const startCarousel = (containerSelector, intervalMs) => {

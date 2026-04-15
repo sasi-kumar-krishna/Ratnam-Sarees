@@ -269,8 +269,8 @@ settingsForm?.addEventListener('submit', async (e) => {
     
     // Parse comma separated values
     const settingsObj = {
-        carousel1: c1Text.split(',').map(s => s.trim()).filter(s => s),
-        carousel2: c2Text.split(',').map(s => s.trim()).filter(s => s),
+        carousel1: c1Text.split(/[\n,]+/).map(s => s.trim()).filter(s => s),
+        carousel2: c2Text.split(/[\n,]+/).map(s => s.trim()).filter(s => s),
         categoryImages: {
             Silk: sCatSilk.value.trim(),
             Cotton: sCatCotton.value.trim(),
